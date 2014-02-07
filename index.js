@@ -1,4 +1,5 @@
 var fs = require('fs');
+var tty = require('tty');
 
 /**
  *  Test if a file exists (-e).
@@ -54,6 +55,18 @@ function file(value, stats, callback) {
   return stats.isFile();
 }
 
+function size(value, stats, callback) {
+  return stats.isFile() && stats.size > 0;
+}
+
+function fifo(value, stats, callback) {
+  return stats.isFIFO();
+}
+
+function socket(value, stats, callback) {
+  return stats.isSocket();
+}
+
 /**
  *  These operators require a stats object.
  */
@@ -62,6 +75,9 @@ var map = {
   f: { method: file },
   c: { method: character },
   d: { method: directory },
+  p: { method: fifo },
+  s: { method: size },
+  S: { method: socket },
 }
 
 /**
@@ -76,7 +92,7 @@ var map = {
  */
 function test(expr, value, callback) {
   var async = typeof callback == 'function';
-  var res = false, method, stats;
+  var res = false, method, stats, fd;
   expr = expr.replace(/^-+/, '');
   switch(expr) {
     case 'n':
@@ -89,6 +105,23 @@ function test(expr, value, callback) {
       break;
     case "e":
       res = exists(value, callback);
+      break;
+    case "t":
+      fd = parseInt(value);
+      if(isNaN(fd)) {
+        if(!async) {
+          fd = fs.openSync(value, 'r');
+          res = tty.isatty(fd);
+        }else{
+          fs.open(value, 'r', function(err, fd) {
+            if(err) return callback(false);
+            return callback(tty.isatty(fd));
+          });
+        }
+      }else{
+        res = tty.isatty(fd);
+        if(async) return callback(res);
+      }
       break;
     default:
       if(map[expr]) {

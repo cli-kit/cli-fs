@@ -56,7 +56,7 @@ describe('cli-fs:', function() {
       });
     }
   );
-  it('should test empty string (-n) (true)',
+  it('should test non-empty string (-n) (true)',
     function(done) {
       var result = true;
       var expr = '-n';
