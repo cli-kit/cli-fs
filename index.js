@@ -79,6 +79,14 @@ function test(expr, value, callback) {
   var res = false, method, stats;
   expr = expr.replace(/^-+/, '');
   switch(expr) {
+    case 'n':
+      res = ('' + value).length > 0;
+      if(async) return callback(res);
+      break;
+    case 'z':
+      res = ('' + value) === '';
+      if(async) return callback(res);
+      break;
     case "e":
       res = exists(value, callback);
       break;
