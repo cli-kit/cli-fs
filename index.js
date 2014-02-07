@@ -208,6 +208,9 @@ function test(expr, value, callback) {
     case "w":
       res = writable(value, callback);
       break;
+    case "x":
+      res = executable(value, callback);
+      break;
     case "t":
       fd = parseInt(value);
       if(isNaN(fd)) {
