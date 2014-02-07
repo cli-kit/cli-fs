@@ -4,7 +4,7 @@ var test = require('../..').test;
 var run = require('../util/run');
 var files = require('../util/files');
 
-describe('cli-util:', function() {
+describe('cli-fs:', function() {
   it('should test file exists (false)', function(done) {
     var result = false;
     var expr = '-e';

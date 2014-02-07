@@ -7,6 +7,7 @@ var cmd = 'test';
 module.exports = function run(args, callback) {
   args.unshift(cmd);
   var command = args.join(' ');
+  //console.log('cmd %s', command);
   return exec(command,
     function (error, stdout, stderr) {
       if (error !== null) {

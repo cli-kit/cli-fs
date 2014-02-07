@@ -5,10 +5,10 @@ var run = require('../util/run');
 var files = require('../util/files');
 
 describe('cli-fs:', function() {
-  it('should test block file - missing (false)',
+  it('should test character file - missing (false)',
     function(done) {
       var result = false;
-      var expr = '-b';
+      var expr = '-c';
       var value = files.missing;
       var args = [expr, value];
       run(args, function(expected) {
@@ -22,10 +22,10 @@ describe('cli-fs:', function() {
       });
     }
   );
-  it('should test block file - regular (false)',
+  it('should test character file - regular (false)',
     function(done) {
       var result = false;
-      var expr = '-b';
+      var expr = '-c';
       var value = files.regular;
       var args = [expr, value];
       run(args, function(expected) {
@@ -39,11 +39,11 @@ describe('cli-fs:', function() {
       });
     }
   );
-  it('should test block file (true)',
+  it('should test character file (true)',
     function(done) {
       var result = true;
-      var expr = '-b';
-      var value = files.block;
+      var expr = '-c';
+      var value = files.character;
       var args = [expr, value];
       run(args, function(expected) {
         expect(result).to.eql(expected);
