@@ -21,6 +21,102 @@ function exists(value, callback) {
 }
 
 /**
+ *  Checks file bitmask based on the supplied
+ *  fs.Stats and a bit mask.
+ *
+ *  Execute (-x):
+ *
+ *  bitmask(stat, 1);
+ *
+ *  Read (-r):
+ *
+ *  bitmask(stat, 4);
+ *
+ *  Write (-w):
+ *
+ *  bitmask(stat, 2);
+ *
+ *  @param stat The fs.Stats instance.
+ *  @param mask The bit mask.
+ */
+function bitmask(stat, mask) {
+  return !!(mask &
+    parseInt((stat.mode & parseInt("0777", 8)).toString (8)[0]));
+}
+
+/**
+ *  Utility to check permissions based on a bitmask.
+ *
+ *  @param mask The bit mask.
+ *  @param value The file path.
+ *  @param callback A callback function which
+ *  makes this asynchronous.
+ */
+function permissions(mask, value, callback) {
+  var async = typeof callback == 'function';
+  if(!async) {
+    try {
+      stats = stat(value, false, false, null);
+    }catch(e) {
+      return false;
+    }
+    return bitmask(stats, mask);
+  }
+  stat(value, false, false, function(err, stats) {
+    if(err) return callback(false);
+    callback(bitmask(stats, mask));
+  });
+}
+
+function open(flag, value, callback) {
+  var async = typeof callback == 'function';
+  var method = async ? 'open' : 'openSync';
+  try {
+    var fd = fs[method](value, flag, function(err, fd) {
+      if(err) return callback(false);
+      fs.close(fd);
+      return callback(true);
+    });
+    if(!async && fd) fs.closeSync(fd);
+    return true;
+  }catch(e){}
+  return false;
+}
+
+/**
+ *  Determine if a file is readable.
+ *
+ *  @param value The file path.
+ *  @param callback A callback function which
+ *  makes this asynchronous.
+ */
+function readable(value, callback) {
+  return open('r', value, callback);
+}
+
+/**
+ *  Determine if a file is writable.
+ *
+ *  @param value The file path.
+ *  @param callback A callback function which
+ *  makes this asynchronous.
+ */
+function writable(value, callback) {
+  return open('r+', value, callback);
+}
+
+/**
+ *  Determine if a file is executable.
+ *
+ *  @param value The file path.
+ *  @param callback A callback function which
+ *  makes this asynchronous.
+ */
+function executable(value, callback) {
+  return permissions(1, value, callback);
+}
+
+/**
  *  Retrieve a fs.Stats object from value.
  *
  *  @param value The value to stat.
@@ -106,6 +202,12 @@ function test(expr, value, callback) {
     case "e":
       res = exists(value, callback);
       break;
+    case "r":
+      res = readable(value, callback);
+      break;
+    case "w":
+      res = writable(value, callback);
+      break;
     case "t":
       fd = parseInt(value);
       if(isNaN(fd)) {
@@ -144,3 +246,6 @@ function test(expr, value, callback) {
 
 module.exports = {};
 module.exports.test = test;
+module.exports.readable = readable;
+module.exports.writable = writable;
+module.exports.executable = executable;
