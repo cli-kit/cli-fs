@@ -137,32 +137,36 @@ function stat(value, ln, fd, callback) {
   });
 }
 
-function block(value, stats, callback) {
+function block(stats) {
   return stats.isBlockDevice();
 }
 
-function character(value, stats, callback) {
+function character(stats) {
   return stats.isCharacterDevice();
 }
 
-function directory(value, stats, callback) {
+function directory(stats) {
   return stats.isDirectory();
 }
 
-function file(value, stats, callback) {
+function file(stats) {
   return stats.isFile();
 }
 
-function size(value, stats, callback) {
+function size(stats) {
   return stats.isFile() && stats.size > 0;
 }
 
-function fifo(value, stats, callback) {
+function fifo(stats) {
   return stats.isFIFO();
 }
 
-function socket(value, stats, callback) {
+function socket(stats) {
   return stats.isSocket();
+}
+
+function symbolic(stats) {
+  return stats.isSymbolicLink();
 }
 
 /**
@@ -176,6 +180,7 @@ var map = {
   p: { method: fifo },
   s: { method: size },
   S: { method: socket },
+  L: { method: symbolic, ln: true },
 }
 
 /**
@@ -238,11 +243,11 @@ function test(expr, value, callback) {
           }catch(e) {
             return false;
           }
-          return map[expr].method(value, stats);
+          return map[expr].method(stats);
         }
         stat(value, map[expr].ln, map[expr].fd, function(err, stats) {
           if(err) return callback(false);
-          callback(map[expr].method(value, stats));
+          callback(map[expr].method(stats));
         });
       }
   }
