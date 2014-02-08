@@ -79,10 +79,6 @@ Determine if a file is has the executable bit set. This method does not ensure t
 
 1. The only reliable way to test whether a file is readable or writable is to attempt to open and close the file, hence these tests incur a performance overhead. If you need to perform these tests with a lot of files it is better deferred until you actually need to read or write to the files.
 
-## Roadmap
-
-* Complete the test suite for existing expressions.
-
 ## License
 
 Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
