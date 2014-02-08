@@ -2,7 +2,7 @@
 
 Utility functions for working with the file system.
 
-The primary purpose of this module is to allow for expressions like `test(1)` in order to test file existence, file type, permissions etc.
+The primary purpose of this module is to allow for expressions like `test(1)` in order to test file existence, file type  etc.
 
 ## Install
 
@@ -33,20 +33,15 @@ Supported expressions:
 * `-f`: True if file exists and is a regular file.
 * `-n`: True if the length of string is nonzero.
 * `-p`: True if file is a named pipe (FIFO).
-* `-r`: True if file exists and is readable (^1^).
+* `-r`: True if file exists and is readable ([1]).
 * `-s`: True if file exists and has a size greater than zero.
 * `-t`: True if the file descriptor number is open and associated with a terminal.
-* `-w`: True if the file exists and is writable (^1^).
+* `-w`: True if the file exists and is writable ([1]).
 * `-x`: True if file exists and is executable. True indicates only that the execute flag is on. If file is a directory, true indicates that file can be searched.
 * `-z`: True if the length of string is zero.
 * `-S`: Ture if file exists and is a socket.
 
 1. The only reliable way to test whether a file is readable or writable is to attempt to open and close the file, hence these tests incur a performance overhead. If you need to perform these tests with a lot of files it is better deferred until you actually need to read or write to the files.
-
-## Roadmap
-
-* `-L`: True if file exists and is a symbolic link.
-* Complete the test suite for existing expressions.
 
 ## API
 
@@ -80,6 +75,10 @@ Determine if a file is has the executable bit set. This method does not ensure t
 
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
+
+## Roadmap
+
+* Complete the test suite for existing expressions.
 
 ## License
 
