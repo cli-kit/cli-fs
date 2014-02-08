@@ -1,5 +1,4 @@
 var path = require('path');
-//var files = path.normalize(path.join(__dirname, '..', 'files'));
 
 var bin = '/bin';
 var etc = '/etc';
@@ -18,5 +17,5 @@ module.exports = {
   writable: path.join(dev, 'null'),
   executable: path.join(bin, 'ls'),
   noop: path.join(etc, 'sudoers'),
-  link: etc
+  link: etc                       // OSX specific /etc => /private/etc
 }
