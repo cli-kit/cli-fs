@@ -12,7 +12,7 @@ npm install cli-fs
 
 ## Test
 
-Note that rather than mocking lots of files (and file descriptors) these tests run against standard system files, which means if you are not running a UNIX variant (and likely OSX only) these tests may well fail. It is also quite possible that they only work on this machine as permissions can get out of sync, however, effort has been made to use pretty standard values, see the [files](https://github.com/freeformsystems/cli-fs/blob/master/test/util/files.js) list to understand the files used for testing.
+Note that rather than mocking lots of files (and file descriptors) these tests run against standard system files, which means if you are not running a UNIX variant (and likely OSX only) these tests may well fail. It is also quite possible that they only work on this machine as permissions can get out of sync, however, effort has been made to use pretty standard values, see the [files](https://github.com/freeformsystems/cli-fs/blob/master/test/util/files.js) list to see the paths used for testing.
 
 ```
 npm test
