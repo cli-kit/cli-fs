@@ -179,6 +179,8 @@ var map = {
   L: { method: symbolic, ln: true },
 }
 
+var supported = Object.keys(map).concat(['n', 'z', 'e', 'r', 'w', 'x', 't']);
+
 /**
  *  Attempt to resolve the user's home directory
  *  in a platform independent manner.
@@ -248,6 +250,9 @@ function test(expr, value, callback) {
       }
       break;
     default:
+      if(!~supported.indexOf(expr)) {
+        throw new Error('Unsupported test expression \'' + expr + '\'');
+      }
       fd = parseInt(value);
       usefd = map[expr].fd;
       if(!isNaN(fd)) {
@@ -278,4 +283,5 @@ module.exports.readable = readable;
 module.exports.writable = writable;
 module.exports.executable = executable;
 module.exports.home = home;
+module.exports.supported = supported;
 module.exports.bitmask = bitmask;

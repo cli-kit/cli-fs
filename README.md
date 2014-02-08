@@ -54,12 +54,16 @@ Test an expression.
 * `value`: The value to test.
 * `callback`: An optional callback function, forces an asynchronous test.
 
+Returns a boolean indicating whether the test passed or throws an error if the expression is not supported.
+
 ### readable(path, [callback])
 
 Determine if a file is readable, this method opens the file for reading using the `r` flag and immediately closes the file [1].
 
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
+
+Returns a boolean indicating whether the test passed.
 
 ### writable(path, [callback])
 
@@ -68,12 +72,20 @@ Determine if a file is writable, this method opens the file for reading using th
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
 
+Returns a boolean indicating whether the test passed.
+
 ### executable(path, [callback])
 
 Determine if a file is has the executable bit set. This method does not ensure that attempting to execute the file will not result in an `EPERM` error, use with caution.
 
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
+
+Returns a boolean indicating whether the test passed.
+
+### supported
+
+Array of the supported test expression characters.
 
 ### home()
 

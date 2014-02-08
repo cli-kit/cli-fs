@@ -1,6 +1,6 @@
 {
   "name": "cli-fs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Utility functions for working with the filesystem",
   "author": "muji <noop@xpm.io>",
   "repository": {
