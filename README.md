@@ -75,6 +75,13 @@ Determine if a file is has the executable bit set. This method does not ensure t
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
 
+### home()
+
+Attempt to resolve the user's home directory using the environment variables
+`HOME`, `HOMEPATH`, `USERPROFILE`.
+
+Returns the user's home directory or the empty string if none of the environment variables are set.
+
 ## Caveats
 
 1. The only reliable way to test whether a file is readable or writable is to attempt to open and close the file, hence these tests incur a performance overhead. If you need to perform these tests with a lot of files it is better deferred until you actually need to read or write to the files.

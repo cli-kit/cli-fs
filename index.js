@@ -180,6 +180,18 @@ var map = {
 }
 
 /**
+ *  Attempt to resolve the user's home directory
+ *  in a platform independent manner.
+ *
+ *  @return The user's home directory or the empty string
+ *  if none of the environment variables are defined.
+ */
+function home() {
+  return process.env.HOME || process.env.HOMEPATH ||
+    process.env.USERPROFILE || '';
+}
+
+/**
  *  Test an expression and return a boolean.
  *
  *  Mimics the behaviour of test(1).
@@ -265,4 +277,5 @@ module.exports.test = test;
 module.exports.readable = readable;
 module.exports.writable = writable;
 module.exports.executable = executable;
+module.exports.home = home;
 module.exports.bitmask = bitmask;
