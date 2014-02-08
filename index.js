@@ -38,10 +38,12 @@ function exists(value, callback) {
  *
  *  @param stat The fs.Stats instance.
  *  @param mask The bit mask.
+ *  @param mode The filesystem permissions mode, defaults is 777.
  */
-function bitmask(stat, mask) {
+function bitmask(stat, mask, mode) {
+  mode = mode || '777';
   return !!(mask &
-    parseInt((stat.mode & parseInt("0777", 8)).toString (8)[0]));
+    parseInt((stat.mode & parseInt(mode, 8)).toString (8)[0]));
 }
 
 /**
@@ -252,3 +254,4 @@ module.exports.test = test;
 module.exports.readable = readable;
 module.exports.writable = writable;
 module.exports.executable = executable;
+module.exports.bitmask = bitmask;
