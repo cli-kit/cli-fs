@@ -18,7 +18,7 @@ Note that rather than mocking lots of files (and file descriptors) these tests r
 npm test
 ```
 
-## Flags
+## Expressions
 
 This module is designed to support the majority of file tests as described by `man test` it does not support complex expressions such as `-gt` or `!=` which require two operands, this is better achieved with pure javascript.
 
