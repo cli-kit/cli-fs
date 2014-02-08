@@ -191,7 +191,7 @@ var map = {
  */
 function test(expr, value, callback) {
   var async = typeof callback == 'function';
-  var res = false, method, stats, fd;
+  var res = false, method, stats, fd, usefd = false;
   expr = expr.replace(/^-+/, '');
   switch(expr) {
     case 'n':
@@ -236,16 +236,22 @@ function test(expr, value, callback) {
       }
       break;
     default:
+      fd = parseInt(value);
+      usefd = map[expr].fd;
+      if(!isNaN(fd)) {
+        usefd = true;
+        value = fd;
+      }
       if(map[expr]) {
         if(!async) {
           try {
-            stats = stat(value, map[expr].ln, map[expr].fd, null);
+            stats = stat(value, map[expr].ln, usefd, null);
           }catch(e) {
             return false;
           }
           return map[expr].method(stats);
         }
-        stat(value, map[expr].ln, map[expr].fd, function(err, stats) {
+        stat(value, map[expr].ln, usefd, function(err, stats) {
           if(err) return callback(false);
           callback(map[expr].method(stats));
         });

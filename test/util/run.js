@@ -11,6 +11,7 @@ module.exports = function run(args, callback) {
   return exec(command,
     function (error, stdout, stderr) {
       if (error !== null) {
+        //console.log(error);
         return callback(false);
       }
       callback(true);

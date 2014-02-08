@@ -56,4 +56,18 @@ describe('cli-fs:', function() {
       });
     }
   );
+  it('should test character file by fd (true)',
+    function(done) {
+      var result = true;
+      var expr = '-c';
+      var value = files.tty;
+      var res = test(expr, value);
+      // SEE: https://github.com/joyent/node/issues/7076
+      expect(res).to.eql(result);
+      test(expr, value, function(res) {
+        expect(res).to.eql(result);
+        done();
+      });
+    }
+  );
 })
