@@ -1,5 +1,4 @@
 var net = require('net');
-var fs = require('fs');
 var path = require('path');
 var Socket = net.Socket;
 var expect = require('chai').expect;
@@ -75,7 +74,7 @@ describe('cli-fs:', function() {
       var args = [expr, fd];
       // NOTE: test -S /dev/fd/12 does not return true
       // NOTE: regardless of whether the server or client fd
-      // NOTE: is used
+      // NOTE: is used, even though fs.existsSync() returns true
       var res = test(expr, value);
       expect(res).to.eql(result);
       test(expr, value, function(res) {
