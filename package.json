@@ -27,7 +27,9 @@
   },
   "engine": [ "node >= 0.10.21" ],
   "scripts": {
-    "test": "istanbul cover _mocha -- -u bdd --recursive --reporter list -A test/unit/"
+    "test-before": "mkfifo /tmp/cli-fs-temp-fifo",
+    "test-after": "rm -f /tmp/cli-fs-temp-fifo",
+    "test": "npm run test-before && istanbul cover _mocha -- -u bdd --recursive --reporter list -A test/unit/; npm run test-after"
   },
   "config" : {}
 }

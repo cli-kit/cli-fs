@@ -20,6 +20,7 @@ module.exports = {
   writable: path.join(dev, 'null'),
   executable: path.join(bin, 'ls'),
   socket: path.join(tmp, 'test.sock'),
+  fifo: path.join(tmp, 'cli-fs-temp-fifo'),
   noop: path.join(etc, 'sudoers'),
   link: etc                       // OSX specific /etc => /private/etc
 }
