@@ -6,7 +6,7 @@ var test = require('../..').test;
 var run = require('../util/run');
 var files = require('../util/files');
 
-var server, client, port = 8124, fd, file;
+var server, client;
 
 describe('cli-fs:', function() {
   before(function(done) {
@@ -14,12 +14,10 @@ describe('cli-fs:', function() {
       c.on('end', function() {});
       c.pipe(c);
     });
-    server.listen(port, function() {
+    server.listen(files.socket, function() {
       client = new Socket();
-      client.connect(port);
+      client.connect(files.socket);
       client.on('connect', function(){
-        fd = server._handle.fd;
-        file = path.join(files.dev, 'fd', '' + fd);
         done();
       });
     });
@@ -70,17 +68,17 @@ describe('cli-fs:', function() {
     function(done) {
       var result = true;
       var expr = '-S';
-      var value = file;
-      var args = [expr, fd];
-      // NOTE: test -S /dev/fd/12 does not return true
-      // NOTE: regardless of whether the server or client fd
-      // NOTE: is used, even though fs.existsSync() returns true
-      var res = test(expr, value);
-      expect(res).to.eql(result);
-      test(expr, value, function(res) {
-        expect(res).to.eql(result);
-        done();
-      });
+      var value = files.socket;
+      var args = [expr, value];
+      run(args, function(expected) {
+        expect(result).to.eql(expected);
+        var res = test(expr, value);
+        expect(res).to.eql(expected);
+        test(expr, value, function(res) {
+          expect(res).to.eql(expected);
+          done();
+        });
+      })
     }
   );
 })

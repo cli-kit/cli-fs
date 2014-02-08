@@ -3,6 +3,7 @@ var path = require('path');
 var bin = '/bin';
 var etc = '/etc';
 var dev ='/dev';
+var tmp ='/tmp';
 
 module.exports = {
   etc: etc,
@@ -18,6 +19,7 @@ module.exports = {
   readable: path.join(dev, 'null'),
   writable: path.join(dev, 'null'),
   executable: path.join(bin, 'ls'),
+  socket: path.join(tmp, 'test.sock'),
   noop: path.join(etc, 'sudoers'),
   link: etc                       // OSX specific /etc => /private/etc
 }
