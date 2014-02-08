@@ -17,5 +17,6 @@ module.exports = {
   readable: path.join(dev, 'null'),
   writable: path.join(dev, 'null'),
   executable: path.join(bin, 'ls'),
-  noop: path.join(etc, 'sudoers')
+  noop: path.join(etc, 'sudoers'),
+  link: etc
 }
