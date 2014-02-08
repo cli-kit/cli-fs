@@ -11,13 +11,9 @@ var tty = require('tty');
 function exists(value, callback) {
   var async = typeof callback == 'function';
   var method = async ? 'exists' : 'existsSync';
-  try {
-    return fs[method](value, function(exists) {
-      if(async) callback(exists);
-    });
-  }catch(e){
-    return false;
-  }
+  return fs[method](value, function(exists) {
+    if(async) callback(exists);
+  });
 }
 
 /**

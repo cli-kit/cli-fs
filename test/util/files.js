@@ -12,6 +12,8 @@ module.exports = {
   regular: path.join(etc, 'passwd'),
   block: path.join(dev, 'vn0'),
   character: path.join(dev, 'zero'),
+  zero: path.join(dev, 'zero'),
+  hosts: path.join(etc, 'hosts'),
   tty: '1',
   readable: path.join(dev, 'null'),
   writable: path.join(dev, 'null'),
