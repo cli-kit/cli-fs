@@ -218,8 +218,12 @@ function test(expr, value, callback) {
       fd = parseInt(value);
       if(isNaN(fd)) {
         if(!async) {
-          fd = fs.openSync(value, 'r');
-          res = tty.isatty(fd);
+          try {
+            fd = fs.openSync(value, 'r');
+            res = tty.isatty(fd);
+          }catch(e) {
+            res = false;
+          }
         }else{
           fs.open(value, 'r', function(err, fd) {
             if(err) return callback(false);
