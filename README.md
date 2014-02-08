@@ -12,9 +12,74 @@ npm install cli-fs
 
 ## Test
 
+Note that rather than mocking lots of files (and file descriptors) these tests run against standard system files, which means if you are not running a UNIX variant (and likely OSX only) these tests may well fail. It is also quite possible that they only work on this machine as permissions can get out of sync, however, effort has been made to use pretty standard values, see the [files](https://github.com/freeformsystems/cli-fs/blob/master/test/util/files.js) list to understand the files used for testing.
+
 ```
 npm test
 ```
+
+## Flags
+
+This module is designed to support the majority of file tests as described by `man test` it does not support complex expressions such as `-gt` or `!=` which require two operands, this is better achieved with pure javascript.
+
+Use this module when you just want to answer questions like *is this file a directory?* without all the error handling actually testing that condition implies.
+
+Supported expressions:
+
+* `-b`: True if file exists and is a block special file.
+* `-c`: True if file exists and is a character special file.
+* `-d`: True if file exists and is a directory.
+* `-e`: True if file exists (regardless of type).
+* `-f`: True if file exists and is a regular file.
+* `-n`: True if the length of string is nonzero.
+* `-p`: True if file is a named pipe (FIFO).
+* `-r`: True if file exists and is readable (^1^).
+* `-s`: True if file exists and has a size greater than zero.
+* `-t`: True if the file descriptor number is open and associated with a terminal.
+* `-w`: True if the file exists and is writable (^1^).
+* `-x`: True if file exists and is executable. True indicates only that the execute flag is on. If file is a directory, true indicates that file can be searched.
+* `-z`: True if the length of string is zero.
+* `-S`: Ture if file exists and is a socket.
+
+1. The only reliable way to test whether a file is readable or writable is to attempt to open and close the file, hence these tests incur a performance overhead. If you need to perform these tests with a lot of files it is better deferred until you actually need to read or write to the files.
+
+## Roadmap
+
+* `-L`: True if file exists and is a symbolic link.
+* Complete the test suite for existing expressions.
+
+## API
+
+All functions support asynchronous and synchronous operation, specifying a `callback` function implies asynchronous behaviour.
+
+### test(expr, value, [callback])
+
+Test an expression.
+
+* `expr`: The expression to test.
+* `value`: The value to test.
+* `callback`: An optional callback function, forces an asynchronous test.
+
+### readable(path, [callback])
+
+Determine if a file is readable, this method opens the file for reading using the `r` flag and immediately closes the file.
+
+* `path`: The file system path.
+* `callback`: An optional callback function, forces an asynchronous test.
+
+### writable(path, [callback])
+
+Determine if a file is writable, this method opens the file for reading using the `r+` flag and immediately closes the file. Because the `r+` flag is used this method also tests that the file is readable.
+
+* `path`: The file system path.
+* `callback`: An optional callback function, forces an asynchronous test.
+
+### executable(path, [callback])
+
+Determine if a file is has the executable bit set. This method does not ensure that attempting to execute the file will not result in an `EPERM` error, use with caution.
+
+* `path`: The file system path.
+* `callback`: An optional callback function, forces an asynchronous test.
 
 ## License
 
