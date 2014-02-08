@@ -41,8 +41,6 @@ Supported expressions:
 * `-z`: True if the length of string is zero.
 * `-S`: Ture if file exists and is a socket.
 
-1. The only reliable way to test whether a file is readable or writable is to attempt to open and close the file, hence these tests incur a performance overhead. If you need to perform these tests with a lot of files it is better deferred until you actually need to read or write to the files.
-
 ## API
 
 All functions support asynchronous and synchronous operation, specifying a `callback` function implies asynchronous behaviour.
@@ -57,14 +55,14 @@ Test an expression.
 
 ### readable(path, [callback])
 
-Determine if a file is readable, this method opens the file for reading using the `r` flag and immediately closes the file.
+Determine if a file is readable, this method opens the file for reading using the `r` flag and immediately closes the file [1].
 
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
 
 ### writable(path, [callback])
 
-Determine if a file is writable, this method opens the file for reading using the `r+` flag and immediately closes the file. Because the `r+` flag is used this method also tests that the file is readable.
+Determine if a file is writable, this method opens the file for reading using the `r+` flag and immediately closes the file. Because the `r+` flag is used this method also tests that the file is readable [1].
 
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
@@ -75,6 +73,10 @@ Determine if a file is has the executable bit set. This method does not ensure t
 
 * `path`: The file system path.
 * `callback`: An optional callback function, forces an asynchronous test.
+
+## Caveats
+
+1. The only reliable way to test whether a file is readable or writable is to attempt to open and close the file, hence these tests incur a performance overhead. If you need to perform these tests with a lot of files it is better deferred until you actually need to read or write to the files.
 
 ## Roadmap
 
