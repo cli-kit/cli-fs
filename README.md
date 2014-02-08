@@ -39,6 +39,7 @@ Supported expressions:
 * `-w`: True if the file exists and is writable ([1]).
 * `-x`: True if file exists and is executable. True indicates only that the execute flag is on. If file is a directory, true indicates that file can be searched.
 * `-z`: True if the length of string is zero.
+* `-L`: True if the file exists and is a symbolic link.
 * `-S`: Ture if file exists and is a socket.
 
 ## API
