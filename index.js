@@ -11,8 +11,8 @@ var tty = require('tty');
 function exists(value, callback) {
   var async = typeof callback == 'function';
   var method = async ? 'exists' : 'existsSync';
-  return fs[method](value, function(exists) {
-    if(async) callback(exists);
+  return !async ? fs[method](value) : fs[method](value, function(exists) {
+    callback(exists);
   });
 }
 
@@ -128,8 +128,8 @@ function stat(value, ln, fd, callback) {
   var method = async ? 'stat' : 'statSync';
   if(ln && !fd) method = 'l' + method;
   if(fd) method = 'f' + method;
-  return fs[method](value, function(err, stats) {
-    if(async) callback(err, stats);
+  return !async ? fs[method](value) : fs[method](value, function(err, stats) {
+    callback(err, stats);
   });
 }
 
@@ -259,20 +259,18 @@ function test(expr, value, callback) {
         usefd = true;
         value = fd;
       }
-      if(map[expr]) {
-        if(!async) {
-          try {
-            stats = stat(value, map[expr].ln, usefd, null);
-          }catch(e) {
-            return false;
-          }
-          return map[expr].method(stats);
+      if(!async) {
+        try {
+          stats = stat(value, map[expr].ln, usefd, null);
+        }catch(e) {
+          return false;
         }
-        stat(value, map[expr].ln, usefd, function(err, stats) {
-          if(err) return callback(false);
-          callback(map[expr].method(stats));
-        });
+        return map[expr].method(stats);
       }
+      stat(value, map[expr].ln, usefd, function(err, stats) {
+        if(err) return callback(false);
+        callback(map[expr].method(stats));
+      });
   }
   return res;
 }
