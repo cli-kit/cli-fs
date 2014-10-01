@@ -1,5 +1,6 @@
-var fs = require('fs');
-var tty = require('tty');
+var fs = require('fs')
+  , path = require('path')
+  , tty = require('tty');
 
 /**
  *  Test if a file exists (-e).
@@ -275,7 +276,18 @@ function test(expr, value, callback) {
   return res;
 }
 
+function resolve(file) {
+  if(file === '.') {
+    return process.cwd();
+  }
+  if(/^\//.test(file)) {
+    return file;
+  }
+  return path.normalize(path.join(process.cwd(), file)).replace(/\/+$/, '');
+}
+
 module.exports = {};
+module.exports.resolve = resolve;
 module.exports.test = test;
 module.exports.readable = readable;
 module.exports.writable = writable;

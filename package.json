@@ -27,9 +27,8 @@
   },
   "engine": [ "node >= 0.10.21" ],
   "scripts": {
-    "test-before": "mkfifo /tmp/cli-fs-temp-fifo",
-    "test-after": "rm -f /tmp/cli-fs-temp-fifo",
-    "test": "npm run test-before && istanbul cover _mocha -- -u bdd --recursive --reporter list -A test/unit/; npm run test-after"
-  },
-  "config" : {}
+    "pretest": "mkfifo /tmp/cli-fs-temp-fifo",
+    "posttest": "rm -f /tmp/cli-fs-temp-fifo",
+    "test": "NODE_ENV=test istanbul cover _mocha -- -u bdd --recursive --reporter list -A test/spec"
+  }
 }
